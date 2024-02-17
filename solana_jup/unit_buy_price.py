@@ -43,7 +43,7 @@ def save_unit_buy_price(base, quote, measurement_name="unit_buy_price", bucket_n
     with open(file_path, "a") as f:
         writer = csv.writer(f)
         writer.writerow(data.values())
-        print(f"Saved {base} to {quote} price to {file_path}")
+        print(f"Saved {base} to {quote} price to {file_path}, price: {price}")
 
     # upload to InfluxDB
     p = Point(measurement_name) \
