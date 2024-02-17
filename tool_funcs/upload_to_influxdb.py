@@ -9,7 +9,7 @@ import datetime
 
 import influxdb_client
 from concurrent.futures import ProcessPoolExecutor
-from influxdb_client import InfluxDBClient, Point, WriteOptions, WritePrecision
+from influxdb_client import Point, WriteOptions, WritePrecision
 
 from tool_funcs.resources import write_api
 
