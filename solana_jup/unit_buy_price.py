@@ -13,6 +13,9 @@ from tool_funcs.resources import write_api
 
 TMP_DATABASE_DIR = os.path.join(os.path.dirname(__file__), "..", "tmp", "database")
 
+if not os.path.exists(TMP_DATABASE_DIR):
+    os.makedirs(TMP_DATABASE_DIR)
+
 
 def get_unit_buy_price(base, quote):
     url = f'https://price.jup.ag/v4/price?ids={base}&vsToken={quote}'

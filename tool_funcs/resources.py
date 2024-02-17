@@ -1,6 +1,6 @@
 import os
 import influxdb_client
-# from influxdb_client.client.write_api import SYNCHRONOUS
+from influxdb_client.client.write_api import SYNCHRONOUS
 
 INFLUXDB_ORG = os.environ.get('VICTOR_INFLUXDB_ORG')
 INFLUXDB_TOKEN = os.environ.get('VICTOR_INFLUXDB_TOKEN')
