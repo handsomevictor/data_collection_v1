@@ -22,7 +22,8 @@ def get_ohlcvvwap_data(start_time, end_time, exchange, pair, interval, bucket_na
            f'?start_time={start_time}'
            f'&end_time={end_time}'
            '&sort=desc'
-           f'&interval={interval}')
+           f'&interval={interval}'
+           f'&page_size=100000')
     print(url)
     headers = {
         'X-Api-Key': KAIKO_API_KEY,
@@ -38,11 +39,12 @@ def get_ohlcvvwap_data(start_time, end_time, exchange, pair, interval, bucket_na
         response = requests.get(next_url, headers=headers)
         data = response.json()['data']
         df = pd.concat([df, pd.DataFrame(data)])
-    print(df)
-    df['timestamp'] = pd.to_datetime(df['timestamp'])
+
+    df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
     df['price'] = df['price'].astype(float)
     df['volume'] = df['volume'].astype(float)
     df = df.dropna()
+    print(df)
 
     # Handle and Upload overall metrics: iterate through each row
     points = []
@@ -56,20 +58,31 @@ def get_ohlcvvwap_data(start_time, end_time, exchange, pair, interval, bucket_na
         points.append(p)
 
     write_api.write(bucket_name, record=points)
-    print(f"Uploaded {len(df)} hours' Overall Metrics to influxdb!")
+    print(f"Uploaded {len(df)} data to influxdb!")
 
 
 if __name__ == '__main__':
     # start time is 10 seconds ago
     params = {
-        "start_time": (datetime.datetime.utcnow() - datetime.timedelta(seconds=10)).strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+        "start_time": (datetime.datetime.utcnow() - datetime.timedelta(seconds=10000)).strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
         "end_time": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
         "exchange": "bbsp",
-        "pair": "sol-usdt",
+        "pair": "sol-usdc",
         "interval": "1s",
         "bucket_name": "test_bucket",
-        "measurement_name": "ohlcvvwap_test2"
+        "measurement_name": "ohlcvvwap_test4"
     }
 
     get_ohlcvvwap_data(**params)
 
+    params = {
+        "start_time": (datetime.datetime.utcnow() - datetime.timedelta(seconds=10000)).strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+        "end_time": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+        "exchange": "binc",
+        "pair": "sol-usdt",
+        "interval": "1s",
+        "bucket_name": "test_bucket",
+        "measurement_name": "ohlcvvwap_test4"
+    }
+
+    get_ohlcvvwap_data(**params)

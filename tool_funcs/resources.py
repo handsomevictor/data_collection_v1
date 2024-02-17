@@ -11,7 +11,7 @@ client = influxdb_client.InfluxDBClient(
     token=INFLUXDB_TOKEN,
     org=INFLUXDB_ORG
 )
-write_api = client.write_api()
+write_api = client.write_api(write_options=SYNCHRONOUS)
 
 
 if __name__ == '__main__':
