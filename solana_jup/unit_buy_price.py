@@ -8,7 +8,7 @@ import threading
 
 from influxdb_client import InfluxDBClient, Point, WriteOptions, WritePrecision
 
-from tool_funcs.upload_to_influxdb import upload_to_influxdb
+# from tool_funcs.upload_to_influxdb import upload_to_influxdb
 from tool_funcs.resources import write_api
 
 TMP_DATABASE_DIR = os.path.join(os.path.dirname(__file__), "..", "tmp", "database")
