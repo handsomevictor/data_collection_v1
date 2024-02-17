@@ -66,7 +66,7 @@ def save_unit_buy_price(base, quote, measurement_name="unit_buy_price", bucket_n
 
     write_api.write(bucket=bucket_name, record=p)
     print(f"Uploaded {base} to {quote} price to InfluxDB")
-    time.sleep(1.0 - time.time() % 1.0)
+    time.sleep(0.5 - time.time() % 1.0)
 
     # except Exception as e:
     #     print(f"Error occurred: {str(e)}")
