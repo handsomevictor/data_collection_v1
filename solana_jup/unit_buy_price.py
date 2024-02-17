@@ -2,6 +2,7 @@ import os
 import csv
 import json
 import time
+import sched
 import datetime
 import requests
 import threading
@@ -52,15 +53,30 @@ def save_unit_buy_price(base, quote, measurement_name="unit_buy_price", bucket_n
         .field("time_delay", float(time_delay)) \
         .time(time_str, WritePrecision.NS)
 
+    # Check if the interpreter is still running before scheduling the next execution
+    # if threading.main_thread().is_alive():
+    #     write_api.write(bucket=bucket_name, record=p)
+    #     print(f"Uploaded {base} to {quote} price to InfluxDB")
+    #
+    #     # Schedule the next execution
+    #     threading.Timer(1.0 - time.time() % 1.0, save_unit_buy_price,
+    #                     args=(base, quote, measurement_name, bucket_name)).start()
+    # else:
+    #     print("Interpreter is shut down. Cannot schedule new futures.")
+
     write_api.write(bucket=bucket_name, record=p)
     print(f"Uploaded {base} to {quote} price to InfluxDB")
+    time.sleep(1.0 - time.time() % 1.0)
 
     # except Exception as e:
     #     print(f"Error occurred: {str(e)}")
 
     # Schedule the next execution
-    threading.Timer(1.0 - time.time() % 1.0, save_unit_buy_price,
-                    args=(base, quote, measurement_name, bucket_name)).start()
+    # threading.Timer(1.0 - time.time() % 1.0, save_unit_buy_price,
+    #                 args=(base, quote, measurement_name, bucket_name)).start()
+    # Schedule the next execution
+    # scheduler.enter(1.0 - time.time() % 1.0, 1, save_unit_buy_price, (scheduler, base, quote, measurement_name, bucket_name))
+
 
 
 if __name__ == '__main__':
