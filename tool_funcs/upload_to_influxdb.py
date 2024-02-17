@@ -11,7 +11,7 @@ import influxdb_client
 from concurrent.futures import ProcessPoolExecutor
 from influxdb_client import InfluxDBClient, Point, WriteOptions, WritePrecision
 
-from tools.resources import write_api
+from tool_funcs.resources import write_api
 
 
 def upload_to_influxdb(points: list, bucket: str):

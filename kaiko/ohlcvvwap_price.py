@@ -11,7 +11,7 @@ import requests
 import os
 
 from kaiko.resources import KAIKO_API_KEY
-from tools.resources import write_api
+from tool_funcs.resources import write_api
 
 
 # noinspection PyShadowingNames
