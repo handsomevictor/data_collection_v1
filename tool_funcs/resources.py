@@ -1,6 +1,6 @@
 import os
 import influxdb_client
-from influxdb_client.client.write_api import SYNCHRONOUS
+# from influxdb_client.client.write_api import SYNCHRONOUS
 
 INFLUXDB_ORG = os.environ.get('VICTOR_INFLUXDB_ORG')
 INFLUXDB_TOKEN = os.environ.get('VICTOR_INFLUXDB_TOKEN')
@@ -11,7 +11,7 @@ client = influxdb_client.InfluxDBClient(
     token=INFLUXDB_TOKEN,
     org=INFLUXDB_ORG
 )
-write_api = client.write_api(write_options=SYNCHRONOUS)
+write_api = client.write_api()
 
 
 if __name__ == '__main__':
